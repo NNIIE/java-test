@@ -1,9 +1,13 @@
 package com.example.javatest;
 
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
+import org.junit.jupiter.params.provider.*;
 
 import java.time.Duration;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
@@ -35,6 +39,28 @@ class JavaTest {
         );
     }
 
+    @RepeatedTest(value = 10, name = "{displayName} -> {currentRepetition}/{totalRepetitions}")
+    @DisplayName("반복 테스트")
+    void repeatTest() {
+        System.out.println("repeat test");
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"새벽에", "치킨이", "땡기는데", "시킬까?"})
+    @DisplayName("다른 파라미터로 반복 테스트")
+    @NullAndEmptySource
+    void parameterizedTest(String parameter) {
+        System.out.println(parameter);
+    }
+
+    @ParameterizedTest
+    @CsvSource({"10, '자바 테스트'", "20, 스프링"})
+    @DisplayName("여러 인자 반복 테스트")
+    void parametersTest(ArgumentsAccessor argumentsAccessor) {
+        Study study = new Study(argumentsAccessor.getInteger(0), argumentsAccessor.getString(1));
+        System.out.println(study);
+    }
+
     @Test
     @DisplayName("DisplayName Test 2")
     void create1() {
@@ -43,9 +69,21 @@ class JavaTest {
 
     @Test
     @DisplayName("Assumptions")
+    // 조건에 따라 테스트 하기
     void assumptions() {
-        System.out.println(System.getenv("TEST_ENV"));
-        assumeTrue("LOCAL".equalsIgnoreCase(System.getenv("TEST_ENV")));
+        String test_env = System.getenv("TEST_ENV");
+        System.out.println(test_env);
+        assumeTrue("LOCAL".equalsIgnoreCase(test_env));
+
+        assumingThat("LOCAL".equalsIgnoreCase(test_env), () -> {
+            Study actual = new Study(10);
+            assertThat(actual.getLimit()).isGreaterThan(0);
+        });
+
+        assumingThat("greg".equalsIgnoreCase(test_env), () -> {
+            Study actual = new Study(100);
+            assertThat(actual.getLimit()).isGreaterThan(0);
+        });
     }
 
     // 테스트들이 실행되기 전에 딱 1번 실행되는 어노테이션
