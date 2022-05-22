@@ -1,13 +1,22 @@
 package com.example.javatest;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
 public class Study {
 
-    public static void main(String[] args) {
-        SpringApplication.run(Study.class, args);
+    private StudyStatus status = StudyStatus.DRAFT;
+
+    private int limit;
+
+    public Study(int limit) {
+        if (limit < 0)
+            throw new IllegalArgumentException("limit은 0보다 커야합니다.");
+        this.limit = limit;
     }
 
+    public StudyStatus getStatus() {
+        return this.status;
+    }
+
+    public int getLimit() {
+        return limit;
+    }
 }
