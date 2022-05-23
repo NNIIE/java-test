@@ -11,9 +11,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.*;
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS) // 같은 인스턴스
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class JavaTest {
 
     @Test
+    @Order(1)
     @DisplayName("DisplayName Test")
     void create() {
         IllegalArgumentException exception =
@@ -40,6 +43,7 @@ class JavaTest {
     }
 
     @RepeatedTest(value = 10, name = "{displayName} -> {currentRepetition}/{totalRepetitions}")
+    @Order(2)
     @DisplayName("반복 테스트")
     void repeatTest() {
         System.out.println("repeat test");
