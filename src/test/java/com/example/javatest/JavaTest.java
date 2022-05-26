@@ -1,5 +1,7 @@
 package com.example.javatest;
 
+import com.example.javatest.domain.Study;
+import com.example.javatest.study.StudyStatus;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;

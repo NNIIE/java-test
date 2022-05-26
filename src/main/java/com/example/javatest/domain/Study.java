@@ -1,4 +1,6 @@
-package com.example.javatest;
+package com.example.javatest.domain;
+
+import com.example.javatest.study.StudyStatus;
 
 public class Study {
 
