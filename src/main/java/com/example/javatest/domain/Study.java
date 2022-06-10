@@ -41,4 +41,7 @@ public class Study {
                 ", name='" + name + '\'' +
                 '}';
     }
+
+    public void setOwner(Long memberId) {
+    }
 }

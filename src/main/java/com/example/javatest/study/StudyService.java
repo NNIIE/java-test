@@ -11,6 +11,8 @@ public class StudyService {
     private final StudyRepository repository;
 
     public StudyService(MemberService memberService, StudyRepository repository) {
+        assert memberService != null;
+        assert repository != null;
         this.memberService = memberService;
         this.repository = repository;
     }
@@ -19,7 +21,7 @@ public class StudyService {
         Member member = memberService.findById(memberId);
         if (member == null)
             throw new IllegalArgumentException("");
-        study.setOwner(member);
+        study.setOwner(memberId);
 
         return repository.save(study);
     }
